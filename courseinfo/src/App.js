@@ -25,11 +25,7 @@ const Total = ({sum}) => {
   )
 }
 const Course = ({course}) => {
-  // const getSum=(total,num)=>{
-  //   return total+num
-  // }
-  // const sum= course.parts.reduce(getSum,0)
-  
+  const sum=course.parts.reduce((sum,item)=>sum+item.exercises,0)
   return(
     
     <div>
