@@ -7,26 +7,8 @@ const App = () => {
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ])
-  
-  
-  return (
-    <div>
-      <h2>Phonebook</h2>
-      <Filter persons={persons}/>
-      <h3>Add a new</h3>
-      <PersonForm persons={persons} setPersons={setPersons}/>
-      <h3>Numbers</h3>
-      {getPersons()}
-    </div>
-  )
-}
-
-const Filter = ({persons}) => {
   const[filter,setFilter]=useState('') 
-
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value)
-  }
+  
   const getPersons = () => {
     let currentPersons = null;
     if (filter.length>0) {
@@ -44,7 +26,27 @@ const Filter = ({persons}) => {
         <Person name={person.name} number={person.number} key={person.id}/>
       </div>
     ));
-  };
+   };
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <Filter filter={filter} setFilter={setFilter}/>
+      <h3>Add a new</h3>
+      <PersonForm persons={persons} setPersons={setPersons}/>
+      <h3>Numbers</h3>
+      {getPersons()}
+    </div>
+  )
+}
+
+const Filter = ({filter,setFilter}) => {
+  
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value)
+  }
+  
   return(
     <div>
       filter shown with <input value={filter} onChange={handleFilterChange}/>
