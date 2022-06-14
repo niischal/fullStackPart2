@@ -13,6 +13,7 @@ const App = () => {
   }
 
   useEffect(hook,[])
+  
   const getPersons = () => {
     let currentPersons = null;
     if (filter.length>0) {
