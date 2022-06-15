@@ -5,7 +5,7 @@ const DisplayCountry = ({country}) => {
   const [weather, setWeather]=useState([])
     const hook = () => {
       axios
-        .get(`https://api.openweathermap.org/data/2.5/weather?q=${country.name}&appid=ac2b159a27d6d44e5ec108daf3c59806`)
+        .get(`https://api.openweathermap.org/data/2.5/weather?q=${country.name}&appid=`)
         .then(response => setWeather(response))
     }
     useEffect(hook,[])
