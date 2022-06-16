@@ -52,8 +52,8 @@ const App = () => {
 
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
-    
-  
+  const timeout =() => setTimeout(()=>setMessege(null),5000)
+
   const handleAdd = (event) => {
          
     event.preventDefault()
@@ -68,8 +68,12 @@ const App = () => {
             .updateNumber(repeatedPerson.id,newObj)
             .then(returnedData => {
               setPersons(persons.map(person => person.id !== repeatedPerson.id ? person : returnedData))
-              setMessege({"msg": `Update ${repeatedPerson.name}`, 'type' : 'success'})
-           })
+              setMessege({"msg": `Update ${repeatedPerson.name}`, 'type' : 'success'})})
+            .catch(error=>{
+              setMessege({'msg':`${repeatedPerson.name} has already been deleted`, 'type' : 'error' })
+              setPersons(persons.filter(p=>p.id !==repeatedPerson.id))
+              timeout()
+            })
         }
     } else {
       phonebookService
@@ -77,6 +81,7 @@ const App = () => {
         .then(returnedData => {
          setPersons(persons.concat(returnedData))
          setMessege({"msg": `Added ${newName}`, 'type' : 'success'})
+         timeout()
       })
     }
     setNewName('')
@@ -85,12 +90,19 @@ const App = () => {
   
   const handleDelete =(event) => {
     const i=Number(event.target.id)
-    window.confirm(`Delete ${event.target.name}?`)
-    ? phonebookService
+    if(window.confirm(`Delete ${event.target.name}?`)){
+      phonebookService
         .deletePerson(event.target.id)
-        .then(removedPerson => setPersons(persons.filter(person => person.id !==i)))
-        .catch(error=> setMessege({'msg':`${event.target.name} has already been deleted`, 'type' : 'error' })) 
-    : console.log('no')
+        .then(removedPerson => {
+          setPersons(persons.filter(person => person.id !==i))
+          setMessege({"msg": `Deleted ${event.target.name}`, 'type' : 'success'})
+          timeout()
+        })
+        .catch(error=> {
+          setMessege({'msg':`${event.target.name} has already been deleted`, 'type' : 'error' })
+          timeout()
+        }) 
+    }
     setPersons(persons.filter(person => person.id !==i))
   }
 
@@ -98,7 +110,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter filter={filter} setFilter={setFilter}/>
-      {message==null?<Message message={message}/>:null}
+      <Message message={message}/>
       <h3>Add a new</h3>
       <PersonForm 
         handleAdd={handleAdd} 
