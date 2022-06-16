@@ -1,16 +1,11 @@
-import phonebookService from '../services/phonebookService'
 
-const Person = ({name, number,id}) => {
-    const handleDelete =(event) => {
-        window.confirm(`Delete ${name}?`)
-        ? phonebookService.deletePerson(event.target.value)
-        : console.log('no')
-        
-    }
+const Person = ({person,handleDelete}) => {
+    
+    
     return(
       <div>
-        {name}  -  {number}     
-        <button value={id} onClick={handleDelete} >delete</button>
+        {person.name}  -  {person.number}     
+        <button id={person.id} name={person.name} onClick={handleDelete} >delete</button>
     </div>
     )
 }
