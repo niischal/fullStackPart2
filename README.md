@@ -1,1 +1,4 @@
-# fullStackPart2
+# fullStackPart2 Exercises
+Countries
+CourseInfo
+PhoneBook
